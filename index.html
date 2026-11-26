@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞行汽车全方位调研：小鹏汇天「陆地航母」</title>
+<style>
+    :root{
+        --bg:#0d1117;
+        --panel:#161b22;
+        --panel-2:#1c2230;
+        --line:rgba(255,255,255,.09);
+        --txt:#e6edf3;
+        --sub:#9aa7b6;
+        --accent:#4ea1ff;
+        --accent-2:#31d0aa;
+        --warn:#ffb84d;
+        --danger:#ff6b6b;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+        background:
+            radial-gradient(1200px 600px at 10% -10%, rgba(78,161,255,.16), transparent 60%),
+            radial-gradient(900px 500px at 100% 0%, rgba(49,208,170,.12), transparent 60%),
+            var(--bg);
+        color:var(--txt);
+        font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+        line-height:1.85;
+        -webkit-font-smoothing:antialiased;
+        padding:0 18px 80px;
+    }
+    .wrap{max-width:1080px;margin:0 auto;}
+
+    /* 顶部 */
+    header{padding:72px 0 44px;border-bottom:1px solid var(--line);}
+    .kicker{
+        display:inline-block;font-size:13px;letter-spacing:.18em;color:var(--accent);
+        border:1px solid rgba(78,161,255,.4);border-radius:999px;padding:6px 14px;margin-bottom:26px;
+        background:rgba(78,161,255,.08);
+    }
+    h1{font-size:clamp(28px,4.4vw,46px);line-height:1.35;font-weight:800;letter-spacing:-.5px;}
+    h1 .thin{color:var(--sub);font-weight:500;}
+    .meta{margin-top:22px;color:var(--sub);font-size:14px;display:flex;flex-wrap:wrap;gap:10px 26px;}
+    .meta span{white-space:nowrap;}
+    .lead{
+        margin-top:30px;padding:22px 24px;border-left:3px solid var(--accent);
+        background:linear-gradient(90deg,rgba(78,161,255,.10),transparent);
+        border-radius:0 10px 10px 0;color:#cbd6e2;font-size:16px;
+    }
+
+    /* 指标卡 */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:36px 0 0;}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
+    .stat .k{font-size:13px;color:var(--sub);letter-spacing:.06em;}
+    .stat .v{font-size:22px;font-weight:700;margin-top:6px;color:#fff;}
+    .stat .v small{font-size:13px;font-weight:500;color:var(--sub);}
+
+    /* 章节 */
+    section{margin-top:64px;}
+    h2{
+        font-size:24px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:12px;
+        padding-bottom:14px;border-bottom:1px solid var(--line);
+    }
+    h2 .num{
+        flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+        background:rgba(78,161,255,.14);color:var(--accent);font-size:15px;font-weight:700;
+    }
+    h3{margin:30px 0 10px;font-size:17px;font-weight:700;color:#fff;}
+    p{margin:12px 0;color:#cfdae6;}
+    p.note{margin-top:10px;color:var(--sub);font-size:14px;}
+
+    ul{margin:12px 0 12px 0;padding-left:0;list-style:none;}
+    li{
+        position:relative;padding-left:22px;margin:9px 0;color:#cfdae6;
+    }
+    li::before{
+        content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;
+        background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:.85;
+    }
+
+    /* 表格 */
+    .tablewrap{overflow-x:auto;margin:20px 0 8px;border:1px solid var(--line);border-radius:14px;background:var(--panel);}
+    table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px;}
+    thead th{
+        text-align:left;padding:14px 16px;background:rgba(255,255,255,.04);
+        color:#fff;font-weight:700;font-size:13.5px;letter-spacing:.04em;border-bottom:1px solid var(--line);
+    }
+    tbody td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.05);color:#c8d4e0;vertical-align:top;}
+    tbody tr:last-child td{border-bottom:none;}
+    tbody td:first-child{color:#fff;font-weight:600;}
+    .cap{color:var(--sub);font-size:13px;margin:8px 0 0;}
+
+    /* 评估条 */
+    .meter{margin:14px 0;}
+    .meter .row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:#cfdae6;}
+    .meter .bar{height:9px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;}
+    .meter .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+    .meter .fill.warn{background:linear-gradient(90deg,#ffb84d,#ff8f5a);}
+    .meter .fill.bad{background:linear-gradient(90deg,#ff6b6b,#ff9a76);}
+
+    /* 结论框 */
+    .verdict{
+        margin-top:40px;border:1px solid rgba(49,208,170,.35);border-radius:18px;padding:28px 28px 24px;
+        background:linear-gradient(150deg,rgba(49,208,170,.10),rgba(78,161,255,.06));
+    }
+    .verdict h2{border-bottom:none;padding-bottom:0;font-size:22px;}
+    .verdict h2 .num{background:rgba(49,208,170,.16);color:var(--accent-2);}
+
+    /* 参考 */
+    .refs{margin-top:16px;}
+    .refs div{font-size:13.5px;color:var(--sub);padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.08);word-break:break-all;}
+    .refs div:last-child{border-bottom:none;}
+    .refs a{color:var(--accent);text-decoration:none;}
+    .refs a:hover{text-decoration:underline;}
+
+    footer{margin-top:70px;padding-top:22px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center;}
+
+    @media (max-width:640px){
+        header{padding:48px 0 32px;}
+        section{margin-top:48px;}
+        .lead{font-size:15px;padding:18px;}
+        h2{font-size:20px;}
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+    <div class="kicker">FUNDAMENTALS OF FLYING VEHICLE TECHNOLOGY · 课程作业</div>
+    <h1>小鹏汇天「陆地航母」<br><span class="thin">分体式飞行汽车的全方位调研与分析</span></h1>
+    <div class="meta">
+        <span>调研对象：分体式飞行汽车（陆行体 + 飞行体）</span>
+        <span>分析维度：技术可行性 / 应用场景 / 市场可行性</span>
+        <span>姓名：汤佳睿</span>
+        <span>学号：15230302</span>
+    </div>
+    <div class="lead">
+        分体式设计把「地面行驶」与「空中飞行」拆成两个独立模块，用一台可上路的母舰承载并补能飞行器。它绕开了飞行汽车最难的存储与移动问题，但也把适航、空域与配套的难题推到台前。本页是一份面向工程判断的调研结论，不是产品宣传稿。
+    </div>
+
+    <div class="stats">
+        <div class="stat"><div class="k">陆行体尺寸</div><div class="v">5.5 × 2 × 2 m</div></div>
+        <div class="stat"><div class="k">陆行体续航（CLTC）</div><div class="v">＞1000 <small>km</small></div></div>
+        <div class="stat"><div class="k">飞行体净重</div><div class="v">≈360 <small>kg</small></div></div>
+        <div class="stat"><div class="k">补能次数（满油满电）</div><div class="v">5–6 <small>次</small></div></div>
+        <div class="stat"><div class="k">售价区间</div><div class="v">≤200 <small>万元</small></div></div>
+        <div class="stat"><div class="k">量产交付节点</div><div class="v">2026 <small>年</small></div></div>
+    </div>
+</header>
+
+<!-- ============ 一、产品概况 ============ -->
+<section>
+    <h2><span class="num">01</span>调研对象与产品概况</h2>
+    <p>「陆地航母」是小鹏汇天推出的分体式飞行汽车方案，由承担地面运载与收纳补能任务的「陆行体（母舰）」和独立起降飞行的「飞行体」两部分组成，两条产品线分别面向道路交通与低空空域。相比把地面与飞行机构集成在同一机体的一体化 eVTOL，这一构型把工程难度从「一机兼顾两种物理环境」转移到「两机分工＋车规级分合机构」，是一条差异化明显的技术路线。</p>
+
+    <h3>陆行体：运载平台与移动超充站</h3>
+    <ul>
+        <li>三轴六轮布局，6×6 全轮驱动并配后轮转向，承载与越野能力优于常规乘用车底盘；</li>
+        <li>整车约 5.5 × 2 × 2 米，可停入标准车位、驶入地下车库，持 C 照即可驾驶，不额外增加道路准入门槛；</li>
+        <li>基于 800 V 碳化硅增程动力平台，CLTC 综合续航超过 1000 公里，规避了纯电平台的里程焦虑；</li>
+        <li>搭载车载自动分离结合机构，可自动将飞行器从后备舱释放或装载，后备舱同时作为移动超充站，行驶或停车状态均可补能，满油满电可支持飞行器飞行 5～6 次。</li>
+    </ul>
+
+    <h3>飞行体：六旋翼双涵道、可折叠收纳</h3>
+    <ul>
+        <li>电动六旋翼双涵道构型，机臂与桨叶均可折叠，收纳进后备舱后不占用额外停放空间；</li>
+        <li>机身主体结构与桨叶采用碳纤维材料，兼顾强度与轻量化，净重约 360 千克；</li>
+        <li>270° 全景双人座舱，视野优于常规直升机舱；</li>
+        <li>支持手动与自动双模式：手动采用首创单杆操纵系统，官方表述为「5 分钟上手、3 小时成高手」；自动模式具备一键起飞、航线规划与自动飞行、一键返航、3D 复合视觉与降落视野辅助；</li>
+        <li>全域冗余安全设计：动力、飞控、供电、通信、操控等关键系统均有备份，第一套失效后第二套无缝衔接。</li>
+    </ul>
+
+    <h3>产品进展时间线</h3>
+    <div class="tablewrap">
+        <table>
+            <thead>
+                <tr><th style="width:130px">时间</th><th>事件</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2025-01</td><td>CES 2025 首次公开亮相，公布售价在 200 万元以内，计划 2026 年量产交付</td></tr>
+                <tr><td>2025-10</td><td>飞行器在迪拜完成海外首次有人驾驶公开飞行，由阿联酋与迪拜民航局审查许可并全程监督；同期与中东客户签署首批 600 台订购协议</td></tr>
+                <tr><td>2025-11</td><td>广州黄埔飞行汽车量产工厂试产，首台「陆地航母」飞行器下线，全球首条飞行汽车量产线贯通</td></tr>
+                <tr><td>2026（计划）</td><td>启动量产交付</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="cap">数据来源：小鹏汽车官网、广州市黄埔区政府门户网站、懂车帝、腾讯网报道（详见文末参考资料）。</p>
+</section>
+
+<!-- ============ 二、技术可行性 ============ -->
+<section>
+    <h2><span class="num">02</span>技术可行性分析</h2>
+
+    <h3>2.1 总体构型：分体式解耦的利与弊</h3>
+    <p>分体方案的本质是把飞行任务从「必须随时随地与地面机构绑在一起」中解放出来。地面部分完全复用新能源汽车的底盘、整车制造与供应链体系，飞行部分专注垂直起降与空中操控，两边可以各自按成熟行业的标准迭代。</p>
+    <p>飞行体采用六旋翼双涵道布局，控制逻辑与成熟的多旋翼无人机、电动直升机同源，没有倾转旋翼在过渡飞行阶段的复杂气动与控制难题，工程实现路径更清晰、试飞风险更低。代价是效率：多旋翼构型的巡航气动效率显著低于固定翼或复合翼，这也决定了它只能做短途、低速、点对点的任务。</p>
+
+    <h3>2.2 动力与能源：高压平台够用，电池仍是天花板</h3>
+    <p>飞行体与陆行体均基于 800 V 碳化硅高压平台，飞行体电量从 30% 充至 80% 最快约 18 分钟，补能速度在同类产品中处于较好水平；陆行体走增程路线并可为飞行器多次补能，等于把「地面加油站」随身携带，部分缓解了纯电飞行器的续航焦虑。</p>
+    <p>但动力电池能量密度仍然是硬约束。飞行器每多带 1 kg 电池，可用载荷与航时就相应减少，当前技术下这类产品只能定位中短途、低载荷场景，很难承担长距离或大载重运输。换句话说，<strong>补能方式解决的是「使用便利性」，能量密度决定的是「任务能力边界」</strong>，两者不能互相替代。</p>
+
+    <h3>2.3 飞控与安全冗余</h3>
+    <p>关键系统全域冗余是载人飞行器的基本要求，也是这款产品对外强调最多的能力。动力、飞控、供电、通信、操控五类系统各自备份，单点失效后可切换，这类设计思路与民用飞机的安全架构一致。</p>
+    <p>操控层面，单杆操纵大幅降低了学习门槛，把传统直升机「双手双脚并用」的操纵逻辑简化为单手输入，对 C 端用户拓展意义明显。自动模式下的航线规划、一键起降与返航、3D 复合视觉和降落视野辅助，实质上是把一部分安全责任从人转移到系统——这也意味着感知算法的可靠性、失效降级策略必须做到比手动飞行更保守。</p>
+
+    <h3>2.4 适航与法规：真正的长周期变量</h3>
+    <ul>
+        <li><strong>双监管体系</strong>：陆行体属机动车，需满足道路法规与碰撞安全要求；飞行体属航空器，需通过民航型号合格审定、生产许可与单机适航，两套体系的取证节奏完全不同步；</li>
+        <li><strong>空域与飞行审批</strong>：城市低空飞行涉及空域划分、飞行计划报批、临时管制，当前审批效率难以支撑高频通勤；</li>
+        <li><strong>起降场地与噪声</strong>：起降需硬化场地与安全隔离区，旋翼噪声在城市密集区容易触及居民投诉红线；</li>
+        <li><strong>驾驶员资质</strong>：地面 C 照之外，飞行体仍需另行考取飞行执照，用户获取成本并不只是购机价格。</li>
+    </ul>
+
+    <h3>2.5 技术可行性小结</h3>
+    <div class="meter">
+        <div class="row"><span>样机试飞与示范运营</span><span>已实现</span></div>
+        <div class="bar"><div class="fill" style="width:92%"></div></div>
+    </div>
+    <div class="meter">
+        <div class="row"><span>构型与飞控工程成熟度</span><span>较成熟</span></div>
+        <div class="bar"><div class="fill" style="width:80%"></div></div>
+    </div>
+    <div class="meter">
+        <div class="row"><span>电池能量密度支撑的任务能力</span><span>受限</span></div>
+        <div class="bar"><div class="fill warn" style="width:55%"></div></div>
+    </div>
+    <div class="meter">
+        <div class="row"><span>适航取证与低空管理配套</span><span>待完善</span></div>
+        <div class="bar"><div class="fill bad" style="width:42%"></div></div>
+    </div>
+    <p class="note">结论：产品在试飞、展示与示范运营层面已具备阶段性可行性，核心技术路线获得工程验证；面向规模化商业应用，电池、适航、空域与感知可靠度是四个主要瓶颈。</p>
+</section>
+
+<!-- ============ 三、应用场景 ============ -->
+<section>
+    <h2><span class="num">03</span>应用场景分析</h2>
+    <p>结合垂直起降能力、双人座舱容量与短航时特征，其场景价值集中在「时间敏感、距离不长、地面绕行成本高」的任务上。</p>
+    <div class="tablewrap">
+        <table>
+            <thead>
+                <tr><th style="width:170px">场景</th><th>典型任务</th><th style="width:190px">关键约束</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>城市短途通勤</td><td>跨江、跨片区、绕开拥堵路段的点对点出行</td><td>起降点密度、空域审批、单次航程</td></tr>
+                <tr><td>应急救援与医疗转运</td><td>道路阻断时转运伤员、投送应急物资</td><td>全天候能力、夜间飞行许可</td></tr>
+                <tr><td>低空文旅观光</td><td>景区、滨海、城市地标定点观光飞行</td><td>噪声、客流调度、安全隔离</td></tr>
+                <tr><td>特种作业与轻量物流</td><td>电力管线巡检、航拍测绘、轻量物资配送</td><td>载荷限制、作业资质</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>值得注意的是，这款产品在场地要求上确实做了针对性优化：官方介绍其起降仅需约 6～8 个停车位大小的普通硬化地面，不必依赖专用机场跑道，这显著降低了「能不能用」的门槛。但「能不能飞」仍取决于空域，这一点不是靠产品设计能解决的。</p>
+    <p class="note">场景优先级判断：短期应以文旅观光、应急作业这类「规则可控、场景封闭」的任务优先落地，通勤场景留待低空基础设施成熟后再推。</p>
+</section>
+
+<!-- ============ 四、市场可行性 ============ -->
+<section>
+    <h2><span class="num">04</span>市场可行性分析</h2>
+
+    <h3>4.1 有利因素</h3>
+    <ul>
+        <li><strong>政策窗口</strong>：国内低空经济持续获得政策支持，多地开展低空航线与起降设施试点，为 eVTOL 与飞行汽车提供了相对宽松的试验环境；</li>
+        <li><strong>产业能力</strong>：小鹏在整车制造、智能驾驶感知、800 V 高压平台与供应链管理上的积累，可直接迁移到陆行体，摊薄了整车的研发与制造成本；</li>
+        <li><strong>需求验证</strong>：迪拜有人驾驶公开飞行与中东 600 台订单，说明海外高端市场对这类产品存在真实付费意愿；</li>
+        <li><strong>切入路径</strong>：分体方案适合先用 B 端示范运营（文旅、应急、商旅接驳）跑通使用场景与安全记录，再向 C 端扩散，市场教育成本低于直接卖车给个人。</li>
+    </ul>
+
+    <h3>4.2 不利因素</h3>
+    <ul>
+        <li><strong>价格门槛</strong>：即便「200 万元以内」，相对家用车仍是两个数量级的差距，目标客群极窄；</li>
+        <li><strong>配套缺失</strong>：垂直起降场、补能网络、低空交通管理系统均未成规模，用户「买了不好用」的风险真实存在；</li>
+        <li><strong>社会接受度</strong>：安全、噪声、隐私三重顾虑，需要通过长期安全飞行记录与透明运营来逐步消解；</li>
+        <li><strong>使用资质</strong>：飞行执照要求意味着买家还得是「能被培训出来的人」，限制了用户基数。</li>
+    </ul>
+
+    <h3>4.3 市场定位与路径</h3>
+    <div class="tablewrap">
+        <table>
+            <thead>
+                <tr><th style="width:130px">阶段</th><th>目标客户</th><th>核心任务</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>短期（1–3 年）</td><td>高端个人用户、B 端运营商</td><td>示范运营、积累安全飞行小时、验证商业模式</td></tr>
+                <tr><td>中期（3–5 年）</td><td>文旅集团、应急与救援机构、商旅服务商</td><td>规模化交付、配套起降点、区域化运营网络</td></tr>
+                <tr><td>长期（5 年以上）</td><td>一般消费市场</td><td>成本下降、适航体系成熟后向个人出行渗透</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ============ 五、风险 ============ -->
+<section>
+    <h2><span class="num">05</span>风险研判与发展建议</h2>
+    <h3>5.1 三类主要风险</h3>
+    <ul>
+        <li><strong>政策风险</strong>：低空管理规则、适航标准与空域划分仍在迭代，任何一条规则的收紧都可能推迟落地节奏；</li>
+        <li><strong>技术风险</strong>：电池续航与快充、旋翼噪声、极端天气（侧风、降水、低温）下的可靠性，以及城市复杂环境中的感知失效；</li>
+        <li><strong>商业风险</strong>：起降与补能基础设施投入巨大且需政府、运营商多方共建，短期盈利压力明显，一旦销量不及预期，产线摊销会成为负担。</li>
+    </ul>
+
+    <h3>5.2 建议</h3>
+    <ul>
+        <li>把适航取证放在产品节奏的第一优先级，按民航审定要求持续完善冗余架构与试飞验证数据；</li>
+        <li>与电池、材料供应商联合攻关能量密度与热管理，同时用增程补能路线维持当前可用性；</li>
+        <li>配合地方政府先行布局垂直起降点与补能节点，打通「地面行驶—自动分离—起飞—返航—自动结合」的完整闭环体验；</li>
+        <li>优先在文旅、应急等规则清晰、场景封闭的领域做深，用真实运营数据换取公众信任与政策空间。</li>
+    </ul>
+</section>
+
+<!-- ============ 六、结论 ============ -->
+<section class="verdict">
+    <h2><span class="num">06</span>综合结论</h2>
+    <p>小鹏汇天「陆地航母」是一条具有明显差异化特征的飞行汽车技术路线。分体式设计将地面行驶与空中飞行解耦，降低了一体化飞行器的工程难度，陆行体复用新能源汽车供应链、飞行体在构型、飞控与安全冗余上具备阶段性技术可行性，量产线贯通与海外首飞也说明其工程推进并未停留在概念阶段。</p>
+    <p>但其能力边界同样清晰：多旋翼构型与电池能量密度共同决定了它只能做短途、低载荷任务；适航取证、空域审批、起降配套三项外部条件，任何一项不到位，产品都无法规模化落地。</p>
+    <p><strong>总体判断：技术方向成立、工程进展符合预期；商业化成败不取决于产品本身，而取决于法规完善速度、低空基础设施进度与成本下降幅度三者的叠加节奏。</strong>短期宜按「高端示范运营」定位，不宜按「大众消费品」预期。</p>
+</section>
+
+<!-- ============ 参考 ============ -->
+<section>
+    <h2><span class="num">07</span>参考资料</h2>
+    <div class="refs">
+        <div>[1] 小鹏汽车. 小鹏汇天「陆地航母」飞行汽车海外首秀，计划 2026 年量产交付[EB/OL]. (2025-01-08). <a href="https://www.xiaopeng.com/news/company_news/5438.html" target="_blank" rel="noopener">xiaopeng.com/news/company_news/5438.html</a></div>
+        <div>[2] 广州市黄埔区人民政府. 全球首个飞行汽车量产工厂在广州黄埔试产，首台「陆地航母」飞行器今日下线[EB/OL]. (2025-11-07). <a href="https://www.hp.gov.cn/xwzx/zwyw/content/post_10531848.html" target="_blank" rel="noopener">hp.gov.cn/xwzx/zwyw/content/post_10531848.html</a></div>
+        <div>[3] 懂车帝. 售价 200 万元内/明年交付，小鹏汇天「陆地航母」亮相 CES 2025[EB/OL]. (2025-01-08). <a href="https://www.dongchedi.com/article/7457290034585043456" target="_blank" rel="noopener">dongchedi.com/article/7457290034585043456</a></div>
+        <div>[4] 腾讯网. 中国飞行汽车迪拜公开首飞，小鹏汇天签得海外最大订单[EB/OL]. (2025-10-13). <a href="https://view.inews.qq.com/a/20251013A04WKX00" target="_blank" rel="noopener">view.inews.qq.com/a/20251013A04WKX00</a></div>
+    </div>
+    <p class="note">说明：页面中产品参数与进展均引自上述公开资料，分析判断部分为本人基于资料形成的观点。</p>
+</section>
+
+<footer>
+    飞行汽车技术基础 · 课程作业 ｜ 小鹏汇天「陆地航母」全方位调研与分析 ｜ 汤佳睿 15230302
+</footer>
+
+</div>
+</body>
+</html>
